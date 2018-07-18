@@ -1,12 +1,7 @@
 #include <stdio.h>
+#include "tool.c"
 
-void printArr(int *arr, int len) {
-  for (int i=0; i<len; i++) {
-    printf("%d, ", arr[i]);
-  } 
-}
-
-void quickSort(int *arr, int low, int hight) {
+void __quickSort(int *arr, int low, int hight) {
   if (low >= hight) {
     return;
   }
@@ -26,12 +21,14 @@ void quickSort(int *arr, int low, int hight) {
     arr[j] = arr[i];
   }
   arr[i] = base;
-  quickSort(arr, low, i-1);
-  quickSort(arr, i+1, hight);
+  __quickSort(arr, low, i-1);
+  __quickSort(arr, i+1, hight);
+}
+
+void quickSort(int *arr, int n) {
+  __quickSort(arr, 0, n-1);
 }
 
 int main() {
-  int array[] = {100, 34, 2, 32, 45, 56, 3, 5, 67, 9, 78};
-  quickSort(array, 0, 10);
-  printArr(array, 11);
+  run(&quickSort);
 }
