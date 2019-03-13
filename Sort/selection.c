@@ -8,7 +8,7 @@ void selection(int *arr, int n) {
       if (arr[j] < arr[min]) {
         min = j;
       }
-
+      printf("min: %d, j: %d\n", min, j);
       if (i != min) {
         swap(arr, j, min);
       }
