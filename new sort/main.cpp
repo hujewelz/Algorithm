@@ -3,7 +3,7 @@
 
 int main() {
 
-  int n = 10000;
+  int n = 100000;
   int *arr = sort::randomArr<int>(n);
   int *arr2 = sort::copyedArr(arr, n);
   int *arr3 = sort::copyedArr(arr, n);

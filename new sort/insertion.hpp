@@ -6,11 +6,13 @@ template <typename T>
 void insertionSort(T *arr, int n) {
   for(int i = 1; i < n; i++)
   {
-    for(int j = i; j > 0 && arr[j] < arr[j-1]; j--)
+    T tmp = arr[i];
+    int j; // 保存元素 tmp应该插入的位置
+    for(int j = i; j > 0 && arr[j-1] < tmp; j--)
     {
-      swap(arr[j], arr[j-1]);
+      arr[j] = arr[j-1];
     }
-    
+    if (i != j) 
+      arr[j] = tmp;
   }
-  
 }

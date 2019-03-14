@@ -3,28 +3,72 @@
 using namespace std;
 
 template <typename T>
+int __partition(T arr[], int l, int r) {
+  swap(arr[l], arr[rand()%(r-l+1)+l]);
+  T v = arr[l];
+  
+  // arr[l+1...i) <= v; arr(j...r] >= v
+  int i = l+1, j = r;
+  while(true){
+    while (i <= r && arr[i] < v) i++;
+    while (j >= l+1 && arr[j] > v) j--;
+    if (i > j) break;
+    swap(arr[i], arr[j]);
+    i++;
+    j--;
+  }
+  swap(arr[l], arr[j]);
+  return j;
+}
+
+template <typename T>
 void __quickSort(T *arr, int l, int r) {
   if (l >= r) return;
-
-  //int index = random() % (r-l);
-  T partion = arr[l];
-  //cout << partion << "index: " << index << endl;
-  int i = l, j = r;
-  while ( i < j){
-    while (i < j && arr[j] >= partion)
-      j--;
-    arr[i] = arr[j];
-
-    while (i < j && arr[i] < partion) 
-      i++;
-    arr[j] = arr[i];
-  }
-  arr[i] = partion;
-  __quickSort(arr, l, i-1);
-  __quickSort(arr, i+1, r);
+  
+  int p = __partition(arr, l, r);
+  __quickSort(arr, l, p-1);
+  __quickSort(arr, p+1, r);
 }
 
 template <typename T>
 void quickSort(T *arr, int n) {
+  srand(time(NULL));
   __quickSort(arr, 0, n-1);
+}
+
+
+template <typename T>
+void __quickSort3Ways(T arr[], int l, int r) {
+  if (l >= r) return;
+
+  // partition
+  swap(arr[l], arr[rand()%(r-l+1)+l]);
+  T v = arr[l];
+
+  int lt = l; // arr[l+1...lt] < v
+  int gt = r + 1; // arr[gt...r] > v
+  int i = l + 1;  // arr[lt+1...i) == v
+
+  while(i < gt){
+    if (arr[i] < v) {
+       swap(arr[i], swap(lt+1));
+       lt++;
+       i++;
+    } else if (arr[i] > v) {
+      swap(arr[i], arr[gt-1]);
+      gt--;
+    } else { // arr[i] == v
+      i++;
+    }
+  }
+  swap(arr[l], arr[lt]);
+
+  __quickSort3Ways(arr, l, lt-1);
+  __quickSort3Ways(arr, gt, r);
+}
+
+template <typename T>
+void quickSort3Ways(T arr[], int n) {
+  srand(time(NULL));
+  __quickSort3Ways(arr, 0, n-1);
 }
